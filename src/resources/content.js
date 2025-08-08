@@ -1,16 +1,16 @@
 import { Logo } from "@once-ui-system/core";
 
 const person = {
-  firstName: "Selene",
-  lastName: "Yu",
+  firstName: "Bhanu",
+  lastName: "P S S",
   get name() {
     return `${this.firstName} ${this.lastName}`;
   },
-  role: "Design Engineer",
-  avatar: "/images/avatar.jpg",
-  email: "example@gmail.com",
-  location: "Asia/Jakarta", // Expecting the IANA time zone identifier, e.g., 'Europe/Vienna'
-  languages: ["English", "Bahasa"], // optional: Leave the array empty if you don't want to display languages
+  role: "Community Educator & Full Stack Developer",
+  avatar: "https://res.cloudinary.com/dhvkjanwa/image/upload/v1754584871/logo_ezkabm.png",
+  email: "bhanucsx@gmail.com",
+  location: "Asia/Kolkata",
+  languages: ["English", "Hindi"],
 };
 
 const newsletter = {
@@ -18,29 +18,27 @@ const newsletter = {
   title: <>Subscribe to {person.firstName}'s Newsletter</>,
   description: (
     <>
-      I occasionally write about design, technology, and share thoughts on the intersection of
-      creativity and engineering.
+      I share coding insights, project breakdowns, and community updates from CSX – no spam, just
+      pure value for developers.
     </>
   ),
 };
 
 const social = [
-  // Links are automatically displayed.
-  // Import new icons in /once-ui/icons.ts
   {
     name: "GitHub",
     icon: "github",
-    link: "https://github.com/once-ui-system/nextjs-starter",
+    link: "https://github.com/bhanupratapsingh21",
   },
   {
     name: "LinkedIn",
     icon: "linkedin",
-    link: "https://www.linkedin.com/company/once-ui/",
+    link: "https://www.linkedin.com/in/bhanupratapsingh21-bhanupratapsingh21/",
   },
   {
-    name: "Threads",
-    icon: "threads",
-    link: "https://www.threads.com/@once_ui",
+    name: "YouTube",
+    icon: "youtube",
+    link: "https://www.youtube.com/@CSExplained_official",
   },
   {
     name: "Email",
@@ -51,20 +49,20 @@ const social = [
 
 const home = {
   path: "/",
-  image: "/images/og/home.jpg",
+  image: "https://res.cloudinary.com/dhvkjanwa/image/upload/v1754584871/logo_ezkabm.png",
   label: "Home",
-  title: `${person.name}'s Portfolio`,
-  description: `Portfolio website showcasing my work as a ${person.role}`,
-  headline: <>Building bridges between design and code</>,
+  title: `CSX Learn. Build. Grow. `,
+  description: `Portfolio of a tech educator and developer building CSX and open-source tools.`,
+  headline: <>Simplifying CS concepts, building real devs 🚀</>,
   featured: {
     display: true,
-    title: <>Recent project: <strong className="ml-4">Once UI</strong></>,
-    href: "/work/building-once-ui-a-customizable-design-system",
+    title: <>Featured: <strong className="ml-4">CSX Community</strong></>,
+    href: "/work/building-csx",
   },
   subline: (
     <>
-      I'm Selene, a design engineer at <Logo icon="/trademarks/wordmark-dark.svg" style={{ display: "inline-flex", top: "0.25em", marginLeft: "-0.25em" }} />, where I craft intuitive
-      <br /> user experiences. After hours, I build my own projects.
+      I'm Bhanu, the person behind <strong>CS Explained</strong>. I create content that helps
+      students break into tech via real-world learning, open-source, and full-stack builds.
     </>
   ),
 };
@@ -73,124 +71,101 @@ const about = {
   path: "/about",
   label: "About",
   title: `About – ${person.name}`,
-  description: `Meet ${person.name}, ${person.role} from ${person.location}`,
+  description: `Learn more about ${person.name}, a full stack dev from ${person.location}`,
   tableOfContent: {
-    display: true,
+    display: false,
     subItems: false,
   },
   avatar: {
-    display: true,
+    display: false,
   },
   calendar: {
-    display: true,
+    display: false,
     link: "https://cal.com",
   },
   intro: {
-    display: true,
+    display: false,
     title: "Introduction",
     description: (
       <>
-        Selene is a Jakarta-based design engineer with a passion for transforming complex challenges
-        into simple, elegant design solutions. Her work spans digital interfaces, interactive
-        experiences, and the convergence of design and technology.
+        Bhanu is a developer and content creator from India focused on CSX — a tech community for
+        students. He simplifies computer science concepts through engaging YouTube content, community
+        challenges, and real-world projects using tools like Next.js, TypeScript, and Firebase.
       </>
     ),
   },
   work: {
-    display: true, // set to false to hide this section
+    display: true,
     title: "Work Experience",
     experiences: [
       {
-        company: "FLY",
-        timeframe: "2022 - Present",
-        role: "Senior Design Engineer",
+        company: "CSX (CS Explained)",
+        timeframe: "2023 - Present",
+        role: "Founder & Educator",
         achievements: [
-          <>
-            Redesigned the UI/UX for the FLY platform, resulting in a 20% increase in user
-            engagement and 30% faster load times.
-          </>,
-          <>
-            Spearheaded the integration of AI tools into design workflows, enabling designers to
-            iterate 50% faster.
-          </>,
+          <>Built a 10K+ subscriber tech education community on YouTube and Instagram.</>,
+          <>Created hands-on full stack series using Next.js, Supabase, TypeScript, and Tailwind.</>,
         ],
         images: [
-          // optional: leave the array empty if you don't want to display images
           {
             src: "/images/projects/project-01/cover-01.jpg",
-            alt: "Once UI Project",
+            alt: "CSX Platform",
             width: 16,
             height: 9,
           },
         ],
       },
       {
-        company: "Creativ3",
-        timeframe: "2018 - 2022",
-        role: "Lead Designer",
+        company: "Open Source & Freelance",
+        timeframe: "2022 - Present",
+        role: "Full Stack Developer",
         achievements: [
-          <>
-            Developed a design system that unified the brand across multiple platforms, improving
-            design consistency by 40%.
-          </>,
-          <>
-            Led a cross-functional team to launch a new product line, contributing to a 15% increase
-            in overall company revenue.
-          </>,
+          <>Built portfolio templates, admin dashboards, and REST/GraphQL APIs with modern stacks.</>,
+          <>Contributed to community tools & starter templates based on Once UI, Next.js, and Supabase.</>,
         ],
         images: [],
       },
     ],
   },
   studies: {
-    display: true, // set to false to hide this section
+    display: true,
     title: "Studies",
     institutions: [
       {
-        name: "University of Jakarta",
-        description: <>Studied software engineering.</>,
+        name: "CSX Self-Learning",
+        description: <>Learning by building in public – projects, breakdowns, and shipping.</>,
       },
       {
-        name: "Build the Future",
-        description: <>Studied online marketing and personal branding.</>,
+        name: "B.Tech, Computer Science (2021–2025)",
+        description: <>Currently in 2nd year. Focused on backend, full stack, and dev tooling.</>,
       },
     ],
   },
   technical: {
-    display: true, // set to false to hide this section
-    title: "Technical skills",
+    display: true,
+    title: "Technical Skills",
     skills: [
       {
-        title: "Figma",
-        description: <>Able to prototype in Figma with Once UI with unnatural speed.</>,
-        // optional: leave the array empty if you don't want to display images
+        title: "Next.js + TypeScript",
+        description: <>Building scalable apps with Next.js, TS, Tailwind & Supabase.</>,
         images: [
           {
             src: "/images/projects/project-01/cover-02.jpg",
-            alt: "Project image",
-            width: 16,
-            height: 9,
-          },
-          {
-            src: "/images/projects/project-01/cover-03.jpg",
-            alt: "Project image",
+            alt: "Next.js Project",
             width: 16,
             height: 9,
           },
         ],
       },
       {
-        title: "Next.js",
-        description: <>Building next gen apps with Next.js + Once UI + Supabase.</>,
-        // optional: leave the array empty if you don't want to display images
-        images: [
-          {
-            src: "/images/projects/project-01/cover-04.jpg",
-            alt: "Project image",
-            width: 16,
-            height: 9,
-          },
-        ],
+        title: "Firebase & Supabase",
+        description: <>Authentication, real-time DB, and serverless APIs.</>,
+        images: [],
+      },
+      {
+        title: "UI Systems (Once UI)",
+        description: <>Rapid prototyping with component libraries & design systems.</>,
+        images: [],
       },
     ],
   },
@@ -199,28 +174,22 @@ const about = {
 const blog = {
   path: "/blog",
   label: "Blog",
-  title: "Writing about design and tech...",
-  description: `Read what ${person.name} has been up to recently`,
-  // Create new blog posts by adding a new .mdx file to app/blog/posts
-  // All posts will be listed on the /blog route
+  title: "Tech posts, devlogs, and insights",
+  description: `Read what ${person.name} has been sharing with the CSX community.`,
 };
 
 const work = {
   path: "/work",
   label: "Work",
   title: `Projects – ${person.name}`,
-  description: `Design and dev projects by ${person.name}`,
-  // Create new project pages by adding a new .mdx file to app/blog/posts
-  // All projects will be listed on the /home and /work routes
+  description: `Personal and CSX-backed projects built by ${person.name}`,
 };
 
 const gallery = {
   path: "/gallery",
   label: "Gallery",
-  title: `Photo gallery – ${person.name}`,
-  description: `A photo collection by ${person.name}`,
-  // Images by https://lorant.one
-  // These are placeholder images, replace with your own
+  title: `Behind the scenes – ${person.name}`,
+  description: `Photos and moments from my dev journey, events, and community.`,
   images: [
     {
       src: "/images/gallery/horizontal-1.jpg",
@@ -233,32 +202,7 @@ const gallery = {
       orientation: "horizontal",
     },
     {
-      src: "/images/gallery/horizontal-3.jpg",
-      alt: "image",
-      orientation: "horizontal",
-    },
-    {
-      src: "/images/gallery/horizontal-4.jpg",
-      alt: "image",
-      orientation: "horizontal",
-    },
-    {
       src: "/images/gallery/vertical-1.jpg",
-      alt: "image",
-      orientation: "vertical",
-    },
-    {
-      src: "/images/gallery/vertical-2.jpg",
-      alt: "image",
-      orientation: "vertical",
-    },
-    {
-      src: "/images/gallery/vertical-3.jpg",
-      alt: "image",
-      orientation: "vertical",
-    },
-    {
-      src: "/images/gallery/vertical-4.jpg",
       alt: "image",
       orientation: "vertical",
     },

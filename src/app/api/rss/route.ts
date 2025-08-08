@@ -23,7 +23,7 @@ export async function GET() {
     <managingEditor>${person.email || 'noreply@example.com'} (${person.name})</managingEditor>
     <webMaster>${person.email || 'noreply@example.com'} (${person.name})</webMaster>
     <image>
-      <url>${baseURL}${person.avatar || '/images/avatar.jpg'}</url>
+      <url>${baseURL}${person.avatar || 'https://res.cloudinary.com/dhvkjanwa/image/upload/v1754584871/logo_ezkabm.png'}</url>
       <title>${blog.title}</title>
       <link>${baseURL}/blog</link>
     </image>
