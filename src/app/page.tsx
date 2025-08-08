@@ -24,6 +24,7 @@ import { Posts } from "@/components/blog/Posts";
 import Image from "next/image";
 import { VideoCarousel } from "@/components/videos/Videos";
 import { Web3FormNewsletter } from "@/components/Mailchimp";
+import PeopleWhoInspiredMe from "@/components/inspire";
 
 export default function Home() {
 
@@ -157,56 +158,6 @@ export default function Home() {
           </RevealFx>
         </Column>
       )}
-
-      <Column fillWidth gap="24" className="relative py-12">
-        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-transparent via-brand-weak/5 to-transparent" />
-
-        <RevealFx>
-
-          <section className="py-12 bg-gray-100">
-
-            <Heading
-              as="h2"
-              variant="display-strong-xs"
-              wrap="balance"
-              className="text-center"
-            >
-              People Who Inspired Me
-            </Heading>
-            <Row
-              fillWidth
-              padding="12"
-              gap="8"
-              horizontal="start"
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto px-4"
-            >
-              {[
-                "https://twitter.com/ManWithCodes/status/1949883422777967086", // Hitesh Sir
-                "https://twitter.com/ManWithCodes/status/1952411599668457545", // Harkirat Singh
-                "https://twitter.com/ManWithCodes/status/1950265376299741353", // Manu Paaji
-                "https://twitter.com/ManWithCodes/status/1925334185830666574", // Last tweet
-              ].map((tweetUrl, index) => (
-                <div
-                  key={index}
-                  className="bg-white p-4 rounded-xl shadow hover:shadow-lg transition-all flex flex-col justify-between h-full min-h-[400px]"
-                >
-                  <blockquote className="twitter-tweet w-full h-full">
-                    <a href={tweetUrl}></a>
-                  </blockquote>
-                </div>
-              ))}
-
-              {/* Load Twitter widgets only once */}
-              <script async src="https://platform.twitter.com/widgets.js" charSet="utf-8"></script>
-            </Row>
-
-
-            <script async src="https://platform.twitter.com/widgets.js" charSet="utf-8"></script>
-          </section>
-
-        </RevealFx>
-      </Column>
-
 
       <RevealFx delay={0.6} className="w-full">
         <Web3FormNewsletter
