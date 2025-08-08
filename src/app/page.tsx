@@ -19,7 +19,6 @@ import {
   baseURL,
   routes,
 } from "@/resources";
-import { Mailchimp } from "@/components";
 import { Projects } from "@/components/work/Projects";
 import { Posts } from "@/components/blog/Posts";
 import Image from "next/image";

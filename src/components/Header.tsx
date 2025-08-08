@@ -48,8 +48,8 @@ export const Header = () => {
   return (
     <>
       {/* Blur Effects */}
-      <Fade hide="s" fillWidth position="fixed" height="80" zIndex={9} />
-      <Fade show="s" fillWidth position="fixed" bottom="0" to="top" height="80" zIndex={9} />
+      <Fade fillWidth position="fixed" height="80" zIndex={9} />
+      <Fade fillWidth position="fixed" bottom="0" to="top" height="80" zIndex={9} />
 
       {/* Header Container */}
       <Flex
@@ -61,13 +61,12 @@ export const Header = () => {
         paddingX="16"
         paddingY="8"
         background="transparent"
-        backdrop="blur"
         horizontal="end"
         vertical="center"
         data-border="rounded"
       >
         {/* Left: Location */}
-        <Flex hide="s" textVariant="body-default-s" color="neutral-weak">
+        <Flex textVariant="body-default-s" color="neutral-weak">
           {true && person.location}
         </Flex>
 
@@ -78,7 +77,7 @@ export const Header = () => {
           radius="m-4"
           shadow="l"
           paddingX="12"
-          paddingY="6"
+
           horizontal="center"
           gap="4"
         >
@@ -86,7 +85,7 @@ export const Header = () => {
         </Flex>
 
         {/* Right: Time */}
-        <Flex hide="s" vertical="center" textVariant="body-default-s" color="neutral-weak">
+        <Flex vertical="center" textVariant="body-default-s" color="neutral-weak">
           {display.time && <TimeDisplay timeZone={person.location} />}
         </Flex>
       </Flex>
