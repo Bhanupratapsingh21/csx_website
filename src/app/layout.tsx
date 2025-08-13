@@ -154,9 +154,7 @@ export default async function RootLayout({
             flex={1}
           >
             <Flex horizontal="center" fillWidth minHeight="0">
-              <RouteGuard>
                 {children}
-              </RouteGuard>
             </Flex>
           </Flex>
           <Footer />

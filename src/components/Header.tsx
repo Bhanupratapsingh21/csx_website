@@ -2,24 +2,23 @@
 
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import {
-  Fade,
-  Flex,
-  Line,
-} from "@once-ui-system/core";
+import Link from "next/link";
+import { BookText, Grid3x3, Home, User, User as UserIcon } from "lucide-react";
 
-import { display, person } from "@/resources";
+import { Fade, Flex, Line, ToggleButton } from "@once-ui-system/core";
+
+import { routes, display, person, blog, work } from "@/resources";
 import { ThemeToggle } from "./ThemeToggle";
 import styles from "./Header.module.scss";
+import { useAuthStore } from "@/store/auth";
 
-// === Time Display Component ===
-const TimeDisplay = ({
-  timeZone,
-  locale = "en-GB",
-}: {
+// Clock Component
+type TimeDisplayProps = {
   timeZone: string;
   locale?: string;
-}) => {
+};
+
+const TimeDisplay: React.FC<TimeDisplayProps> = ({ timeZone, locale = "en-GB" }) => {
   const [currentTime, setCurrentTime] = useState("");
 
   useEffect(() => {
@@ -34,60 +33,118 @@ const TimeDisplay = ({
       };
       setCurrentTime(new Intl.DateTimeFormat(locale, options).format(now));
     };
-
     updateTime();
-    const interval = setInterval(updateTime, 1000);
-    return () => clearInterval(interval);
+    const intervalId = setInterval(updateTime, 1000);
+    return () => clearInterval(intervalId);
   }, [timeZone, locale]);
 
   return <>{currentTime}</>;
 };
 
-// === Header Component ===
 export const Header = () => {
+  const pathname = usePathname() ?? "";
+  const user = useAuthStore((s) => s.user);
+
   return (
     <>
-      {/* Blur Effects */}
-      <Fade fillWidth position="fixed" height="80" zIndex={9} />
+      <Fade hidden fillWidth position="fixed" height="80" zIndex={9} />
       <Fade fillWidth position="fixed" bottom="0" to="top" height="80" zIndex={9} />
-
-      {/* Header Container */}
       <Flex
-        as="header"
-        fillWidth
+        fitHeight
+        position="unset"
         className={styles.position}
-        position="fixed"
+        as="header"
         zIndex={9}
-        paddingX="16"
-        paddingY="8"
-        background="transparent"
-        horizontal="end"
-        vertical="center"
+        fillWidth
+        padding="8"
+        horizontal="center"
         data-border="rounded"
       >
-        {/* Left: Location */}
-        <Flex textVariant="body-default-s" color="neutral-weak">
-          {true && person.location}
+
+        {/* Center - Navigation */}
+        <Flex fillWidth horizontal="center">
+          <Flex
+            background="page"
+            border="neutral-alpha-weak"
+            radius="m-4"
+            shadow="l"
+            padding="4"
+            horizontal="center"
+            zIndex={1}
+          >
+            <Flex gap="8" vertical="center" textVariant="body-default-s" suppressHydrationWarning>
+              <Link
+                href="/"
+                className={`p-2 rounded-full ${pathname === "/"
+                  ? "bg-gray-100 dark:bg-gray-700"
+                  : "hover:bg-gray-100 dark:hover:bg-gray-700"
+                  }`}
+              >
+                <Home
+                  size={20}
+                  className={pathname === "/"
+                    ? "text-gray-900 dark:text-white"
+                    : "text-gray-600 dark:text-gray-300"
+                  }
+                />
+              </Link>
+
+
+
+              {/* Work */}
+              <Link
+                href="/work"
+                className={`p-2 rounded-full ${pathname.startsWith("/work")
+                  ? "bg-gray-100 dark:bg-gray-700"
+                  : "hover:bg-gray-100 dark:hover:bg-gray-700"
+                  }`}
+              >
+                <Grid3x3
+                  size={20}
+                  className={pathname.startsWith("/work")
+                    ? "text-gray-900 dark:text-white"
+                    : "text-gray-600 dark:text-gray-300"
+                  }
+                />
+              </Link>
+              {/* Theme Toggle */}
+              <ThemeToggle />
+              {/* Blog */}
+              <Link
+                href="/blogs"
+                className={`p-2 rounded-full ${pathname.startsWith("/blogs")
+                  ? "bg-gray-100 dark:bg-gray-700"
+                  : "hover:bg-gray-100 dark:hover:bg-gray-700"
+                  }`}
+              >
+                <BookText
+                  size={20}
+                  className={pathname.startsWith("/blogs")
+                    ? "text-gray-900 dark:text-white"
+                    : "text-gray-600 dark:text-gray-300"
+                  }
+                />
+              </Link>
+
+              {/* User */}
+              <Link
+                href={user ? "/profile" : "/auth/signup"}
+                className={`p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700`}
+              >
+                <User
+                  size={20}
+                  className="text-gray-600 dark:text-gray-300"
+                />
+              </Link>
+
+
+
+            </Flex>
+          </Flex>
         </Flex>
 
-        {/* Center: Theme Toggle only */}
-        <Flex
-          background="page"
-          border="neutral-alpha-weak"
-          radius="m-4"
-          shadow="l"
-          paddingX="12"
+        {/* Right side - Time + Auth */}
 
-          horizontal="center"
-          gap="4"
-        >
-          {display.themeSwitcher && <ThemeToggle />}
-        </Flex>
-
-        {/* Right: Time */}
-        <Flex vertical="center" textVariant="body-default-s" color="neutral-weak">
-          {display.time && <TimeDisplay timeZone={person.location} />}
-        </Flex>
       </Flex>
     </>
   );
