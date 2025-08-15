@@ -209,7 +209,7 @@ export default function ProfilePage() {
 
     if (loading) {
         return (
-            <Flex fillWidth minHeight="104" justifyContent="center" alignItems="center">
+            <Flex fillWidth minHeight="104" content="center" align="center">
                 <Spinner size="l" />
             </Flex>
         );
@@ -217,7 +217,7 @@ export default function ProfilePage() {
 
     if (!profile) {
         return (
-            <Flex fillWidth minHeight="104" justifyContent="center" alignItems="center">
+            <Flex fillWidth minHeight="104" content="center" align="center" >
                 <Text onBackground="danger-strong">Unable to load profile data.</Text>
             </Flex>
         );
@@ -227,12 +227,12 @@ export default function ProfilePage() {
         <Flex fillWidth minHeight="104" className="min-h-screen">
             <Column
                 fillWidth
-                
+
                 horizontal="center"
                 align="center"
                 background="transparent"
             >
-                <Column gap="16"  className="w-full">
+                <Column gap="16" className="w-full">
                     <Heading
                         as="h1"
                         style={{ textAlign: "center", fontSize: "2rem", fontWeight: 700, lineHeight: 1.2 }}
@@ -253,9 +253,9 @@ export default function ProfilePage() {
 
                     <Card padding="l" border="transparent" radius="l-4">
                         <Flex direction="column" gap="12">
-                            <Row gap="2" alignItems="center">
+                            <Row gap="2"  align="center">
                                 <Column>
-                                    <Text fontWeight="bold">Username : {profile.username}</Text>
+                                    <Text weight="strong" >Username : {profile.username}</Text>
                                     <Text onBackground="neutral-weak">Email : {profile.email}</Text>
                                 </Column>
                             </Row>
@@ -276,7 +276,7 @@ export default function ProfilePage() {
                                         label="Email"
                                         value={profile.email}
                                         disabled
-                                        onBackground="neutral-weak"
+
                                     />
                                     <Input
                                         id="mobile"
@@ -319,7 +319,7 @@ export default function ProfilePage() {
                                         checked={profile.onWhatsapp}
                                         onChange={handleInputChange}
                                     />
-                                    <Row gap="8" justifyContent="end">
+                                    <Row gap="8" content="end">
                                         <Button
                                             variant="secondary"
                                             onClick={() => setEditing(false)}
@@ -346,13 +346,13 @@ export default function ProfilePage() {
                             ) : (
                                 <Flex direction="column" gap="12">
                                     <Row gap="8">
-                                        <Text fontWeight="medium" style={{ width: "120px" }}>
+                                        <Text weight="strong" style={{ width: "120px" }}>
                                             Mobile:
                                         </Text>
                                         <Text>{profile.mobile || "Not set"}</Text>
                                     </Row>
                                     <Row gap="8">
-                                        <Text fontWeight="medium" style={{ width: "120px" }}>
+                                        <Text weight="strong" style={{ width: "120px" }}>
                                             GitHub:
                                         </Text>
                                         <Text>
@@ -372,20 +372,20 @@ export default function ProfilePage() {
                                     </Row>
 
                                     <Row gap="8">
-                                        <Text fontWeight="medium" style={{ width: "120px" }}>
+                                        <Text weight="strong" style={{ width: "120px" }}>
                                             Coding Level:
                                         </Text>
                                         <Text>{profile.codingLevel.charAt(0).toUpperCase() + profile.codingLevel.slice(1) || "Not set"}</Text>
 
                                     </Row>
                                     <Row gap="8">
-                                        <Text fontWeight="medium" style={{ width: "120px" }}>
+                                        <Text weight="strong" style={{ width: "120px" }}>
                                             WhatsApp:
                                         </Text>
                                         <Text>{profile.onWhatsapp ? "Joined" : "Not joined"}</Text>
                                     </Row>
-                                    <Row gap="8" justifyContent="end">
-                                      
+                                    <Row gap="8" content="end">
+
                                         <Button variant="danger" onClick={handleLogout}>
                                             Log Out
                                         </Button>
