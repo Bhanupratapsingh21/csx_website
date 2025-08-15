@@ -10,7 +10,8 @@ import {
 } from "@once-ui-system/core";
 import { Client, Account } from "appwrite";
 import { useAuthStore } from "@/store/auth";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 // Helper to get Appwrite
 const getAppwrite = () => {
@@ -84,7 +85,7 @@ export default function CSXLogin() {
       });
 
       addToast({ variant: "success", message: "Login Successful" });
-      router.push("/dashboard");
+      router.push("/");
     } catch (err: any) {
       setError(err?.message || "Login failed. Please try again.");
     } finally {
@@ -154,6 +155,12 @@ export default function CSXLogin() {
               >
                 {loading ? "Logging in..." : "Login"}
               </Button>
+              <Text align="center" onBackground="neutral-weak">
+                 Create New Account &nbsp;
+                <Link href="/auth/signup">
+                  Signup
+                </Link>
+              </Text>
             </Flex>
           </form>
         </Column>

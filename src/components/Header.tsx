@@ -128,7 +128,7 @@ export const Header = () => {
 
               {/* User */}
               <Link
-                href={user ? "/profile" : "/auth/signup"}
+                href={user ? "/user/profile" : "/auth/signup"}
                 className={`p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700`}
               >
                 <User

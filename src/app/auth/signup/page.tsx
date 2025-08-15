@@ -22,8 +22,8 @@ import styles from "@/components/about/about.module.scss";
 // comment this line in and ensure the import is correct. Otherwise, the inline animation can be skipped.
 // import { RevealFx } from "@once-ui-system/experimental";
 import { useAuthStore } from "@/store/auth"; // adjust path as needed
-import { useRouter } from "next/router";
-
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 // Small helper for classNames without pulling a lib
 const cx = (...arr: (string | false | undefined)[]) => arr.filter(Boolean).join(" ");
 
@@ -157,7 +157,7 @@ export default function CSXSignup() {
       setForm(initialState);
       addToast({ "variant": "success", "message": "Account Created Successfully" })
 
-      router.push("/dashboard"); // redirect to dashboard
+      router.push("/"); // redirect to dashboard
     } catch (err: any) {
       console.error(err);
       setError(err?.message || "Something went wrong. Please try again.");
@@ -294,6 +294,13 @@ export default function CSXSignup() {
               <Text align="center" onBackground="neutral-weak">
                 By signing up, you agree to our Terms and Privacy Policy.
               </Text>
+              <Text align="center" onBackground="neutral-weak">
+                Already Have a Account <br />&nbsp;
+                <Link href="/auth/signin">
+                  Signin
+                </Link>
+              </Text>
+
             </Flex>
           </form>
         </Column>
