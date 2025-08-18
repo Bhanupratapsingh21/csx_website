@@ -52,3 +52,58 @@
   --scheme-neutral-600-50: rgba(137,152,159,0.5);
   /*
 }*/
+
+/* Tiptap Editor Styles */
+.blog-image {
+  max-width: 100%;
+  border-radius: 12px;
+  display: block;
+  margin: 0.5rem 0;
+}
+
+.blog-link {
+  color: var(--primary-alpha-strong);
+  text-decoration: underline;
+}
+
+.dark .blog-link {
+  color: var(--primary-alpha-medium);
+}
+
+/* Prose styles for editor content */
+.prose {
+  max-width: 100%;
+}
+
+.prose h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+  font-weight: bold;
+}
+
+.prose h2 {
+  font-size: 1.5em;
+  margin: 0.83em 0;
+  font-weight: bold;
+}
+
+.prose p {
+  margin: 1em 0;
+  line-height: 1.6;
+}
+
+.prose ul, .prose ol {
+  margin: 1em 0;
+  padding-left: 2em;
+}
+
+.prose blockquote {
+  border-left: 3px solid var(--neutral-alpha-medium);
+  padding-left: 1em;
+  margin: 1em 0;
+  font-style: italic;
+}
+
+.dark .prose blockquote {
+  border-left-color: var(--neutral-alpha-strong);
+}

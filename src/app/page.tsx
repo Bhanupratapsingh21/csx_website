@@ -153,9 +153,13 @@ export default function Home() {
             </Heading>
           </RevealFx>
 
-          <RevealFx delay={0.2}>
+          {
+            /*
+               <RevealFx delay={0.2}>
             <Posts range={[1, 2]} columns="2" />
           </RevealFx>
+            */
+          }
         </Column>
       )}
 

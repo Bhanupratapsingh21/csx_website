@@ -1,49 +1,54 @@
-import { getPosts } from '@/utils/utils';
-import { Grid } from '@once-ui-system/core';
-import Post from './Post';
+import { Grid } from "@once-ui-system/core";
+import Post from "./Post";
+
+interface BlogPost {
+  $id: string;
+  slug: string;
+  title: string;
+  summary: string;
+  content: string;
+  coverImage?: string;
+  publishedAt?: string;
+  author?: {
+    name: string;
+    avatar?: string;
+  };
+}
 
 interface PostsProps {
-    range?: [number] | [number, number];
-    columns?: '1' | '2' | '3';
-    thumbnail?: boolean;
-    direction?: 'row' | 'column';
+  posts: BlogPost[];
+  columns?: "1" | "2" | "3";
+  thumbnail?: boolean;
+  direction?: "row" | "column";
 }
 
 export function Posts({
-    range,
-    columns = '1',
-    thumbnail = false,
-    direction
+  posts,
+  columns = "1",
+  thumbnail = false,
+  direction,
 }: PostsProps) {
-    let allBlogs = getPosts(['src', 'app', 'blog', 'posts']);
+  // sort by published date (descending)
+  const sortedPosts = posts.sort((a, b) => {
+    const dateA = a.publishedAt ? new Date(a.publishedAt).getTime() : 0;
+    const dateB = b.publishedAt ? new Date(b.publishedAt).getTime() : 0;
+    return dateB - dateA;
+  });
 
-    const sortedBlogs = allBlogs.sort((a, b) => {
-        return new Date(b.metadata.publishedAt).getTime() - new Date(a.metadata.publishedAt).getTime();
-    });
-
-    const displayedBlogs = range
-        ? sortedBlogs.slice(
-              range[0] - 1,
-              range.length === 2 ? range[1] : sortedBlogs.length 
-          )
-        : sortedBlogs;
-
-    return (
-        <>
-            {displayedBlogs.length > 0 && (
-                <Grid
-                    columns={columns} 
-                    fillWidth marginBottom="40" gap="12">
-                    {displayedBlogs.map((post) => (
-                        <Post
-                            key={post.slug}
-                            post={post}
-                            thumbnail={thumbnail}
-                            direction={direction}
-                        />
-                    ))}
-                </Grid>
-            )}
-        </>
-    );
+  return (
+    <>
+      {sortedPosts.length > 0 && (
+        <Grid columns={columns} fillWidth marginBottom="40" gap="12">
+          {sortedPosts.map((post) => (
+            <Post
+              key={post.slug || post.$id}
+              post={post}
+              thumbnail={thumbnail}
+              direction={direction}
+            />
+          ))}
+        </Grid>
+      )}
+    </>
+  );
 }

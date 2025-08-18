@@ -1,42 +1,105 @@
-import { Column, Heading, Meta, Schema } from "@once-ui-system/core";
-import { Posts } from "@/components/blog/Posts";
-import { baseURL, blog, person, newsletter } from "@/resources";
+"use client"
+import { Client, Databases, Query } from "appwrite";
+import { Column, Heading, Button, Flex } from "@once-ui-system/core";
+import Post from "@/components/blog/Post";
+import { useState, useEffect } from "react";
 
-export async function generateMetadata() {
-  return Meta.generate({
-    title: blog.title,
-    description: blog.description,
-    baseURL: baseURL,
-    image: `/api/og/generate?title=${encodeURIComponent(blog.title)}`,
-    path: blog.path,
-  });
+// configure Appwrite client
+const client = new Client()
+  .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!) // e.g. "https://cloud.appwrite.io/v1"
+  .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID!);
+
+const databases = new Databases(client);
+
+interface BlogPost {
+  $id: string;
+  title: string;
+  summary?: string;
+  coverImage?: string;
+  publishedAt?: string;
+  tag?: string;
 }
 
-export default function Blog() {
+export default function BlogPage() {
+  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+  const limit = 6; // posts per page
+
+  useEffect(() => {
+    fetchPosts(0);
+  }, []);
+
+  async function fetchPosts(pageNumber: number) {
+    const offset = pageNumber * limit;
+
+    const res = await databases.listDocuments(
+      process.env.NEXT_PUBLIC_APPWRITE_DB_ID!,
+      process.env.NEXT_PUBLIC_APPWRITE_BLOGS_COLLECTION!,
+      [
+        Query.orderDesc("publishedAt"),
+        Query.limit(limit),
+        Query.offset(offset),
+      ]
+    );
+
+    // Map documents to BlogPost safely
+    const blogPosts = res.documents.map(doc => ({
+      $id: doc.$id,
+      title: doc.title,
+      summary: doc.summary,
+      coverImage: doc.coverImage,
+      publishedAt: doc.publishedAt,
+      tag: doc.tag
+    } as BlogPost));
+
+    if (blogPosts.length < limit) {
+      setHasMore(false);
+    }
+
+    if (pageNumber === 0) {
+      setPosts(blogPosts);
+    } else {
+      setPosts(prev => [...prev, ...blogPosts]);
+    }
+  }
+
+  const loadMore = () => {
+    const nextPage = page + 1;
+    setPage(nextPage);
+    fetchPosts(nextPage);
+  };
+
   return (
     <Column maxWidth="s">
-      <Schema
-        as="blogPosting"
-        baseURL={baseURL}
-        title={blog.title}
-        description={blog.description}
-        path={blog.path}
-        image={`/api/og/generate?title=${encodeURIComponent(blog.title)}`}
-        author={{
-          name: person.name,
-          url: `${baseURL}/blog`,
-          image: `${baseURL}${person.avatar}`,
-        }}
-      />
       <Heading marginBottom="l" variant="display-strong-s">
-        {blog.title}
+        All Blogs
       </Heading>
-      <Column
-				fillWidth flex={1}>
-				<Posts range={[1,1]} thumbnail direction="column"/>
-				<Posts range={[2,3]} thumbnail/>
-				<Posts range={[4]} columns="2"/>
-			</Column>
+
+      <Column gap="20">
+        {posts.map((post) => (
+          <Post
+            key={post.$id}
+            post={{
+              slug: post.$id,
+              metadata: {
+                title: post.title,
+                image: post.coverImage,
+                publishedAt: post.publishedAt,
+                tag: post.tag,
+              },
+            }}
+            thumbnail
+            direction="row"
+          />
+        ))}
+      </Column>
+
+      {hasMore && (
+        <Flex center marginTop="24">
+          <Button onClick={loadMore}>Load More</Button>
+        </Flex>
+      )}
     </Column>
   );
 }

@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { BookText, Grid3x3, Home, User, User as UserIcon } from "lucide-react";
+import { BookText, Grid3x3, Home, PlusCircle, User, User as UserIcon } from "lucide-react";
 
 import { Fade, Flex, Line, ToggleButton } from "@once-ui-system/core";
 
@@ -93,15 +93,15 @@ export const Header = () => {
 
               {/* Work */}
               <Link
-                href="/work"
-                className={`p-2 rounded-full ${pathname.startsWith("/work")
+                href={user ? "/upload/blog/add" : "/auth/signup"}
+                className={`p-2 rounded-full ${pathname.startsWith("/upload/blog/add")
                   ? "bg-gray-100 dark:bg-gray-700"
                   : "hover:bg-gray-100 dark:hover:bg-gray-700"
                   }`}
               >
-                <Grid3x3
+                <PlusCircle
                   size={20}
-                  className={pathname.startsWith("/work")
+                  className={pathname.startsWith("/upload/blog/add")
                     ? "text-gray-900 dark:text-white"
                     : "text-gray-600 dark:text-gray-300"
                   }
@@ -111,15 +111,15 @@ export const Header = () => {
               <ThemeToggle />
               {/* Blog */}
               <Link
-                href="/blogs"
-                className={`p-2 rounded-full ${pathname.startsWith("/blogs")
+                href="/blog"
+                className={`p-2 rounded-full ${pathname.startsWith("/blog")
                   ? "bg-gray-100 dark:bg-gray-700"
                   : "hover:bg-gray-100 dark:hover:bg-gray-700"
                   }`}
               >
                 <BookText
                   size={20}
-                  className={pathname.startsWith("/blogs")
+                  className={pathname.startsWith("/blog")
                     ? "text-gray-900 dark:text-white"
                     : "text-gray-600 dark:text-gray-300"
                   }
