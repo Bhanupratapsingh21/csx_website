@@ -20,8 +20,6 @@ import {
   baseURL,
   routes,
 } from "@/resources";
-import { Projects } from "@/components/work/Projects";
-import { Posts } from "@/components/blog/Posts";
 import Image from "next/image";
 import { VideoCarousel } from "@/components/videos/Videos";
 import { Web3FormNewsletter } from "@/components/Mailchimp";

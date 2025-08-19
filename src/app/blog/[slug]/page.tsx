@@ -1,5 +1,6 @@
+// app/blog/[slug]/page.tsx
 import { notFound } from "next/navigation";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import { baseURL, blog, person, about } from "@/resources";
 import { formatDate } from "@/utils/formatDate";
 import { Client, Databases, Query } from "appwrite";
@@ -40,7 +41,6 @@ async function getPostBySlug(slug: string): Promise<BlogPost | null> {
         );
 
         if (res.total === 0) return null;
-
         const doc = res.documents[0];
 
         return {
@@ -61,13 +61,12 @@ async function getPostBySlug(slug: string): Promise<BlogPost | null> {
     }
 }
 
-// ✅ Metadata
-export async function generateMetadata({
-    params,
-}: {
-    params: { slug: string };
-}): Promise<Metadata> {
-    const post = await getPostBySlug(params.slug);
+// ✅ Fixed: await params in generateMetadata
+export async function generateMetadata(
+    { params }: { params: Promise<{ slug: string }> }
+): Promise<Metadata> {
+    const { slug } = await params;
+    const post = await getPostBySlug(slug);
     if (!post) return {};
 
     return {
@@ -84,14 +83,16 @@ export async function generateMetadata({
     };
 }
 
-// ✅ Blog Page
-export default async function BlogPage({ params }: { params: { slug: string } }) {
-    const post = await getPostBySlug(params.slug);
+// ✅ Fixed: await params in default export
+export default async function BlogPage(
+    { params }: { params: Promise<{ slug: string }> }
+) {
+    const { slug } = await params;
+    const post = await getPostBySlug(slug);
     if (!post) notFound();
 
     return (
         <Column maxWidth="m" paddingY="40" paddingX="20" gap="32">
-            {/* Schema.org metadata */}
             <Schema
                 as="blogPosting"
                 baseURL={baseURL}
@@ -106,7 +107,6 @@ export default async function BlogPage({ params }: { params: { slug: string } })
                 }}
             />
 
-            {/* Back link */}
             <Button
                 href="/blog"
                 variant="secondary"
@@ -115,10 +115,8 @@ export default async function BlogPage({ params }: { params: { slug: string } })
                 label="Back to posts"
             />
 
-            {/* Title */}
             <Heading variant="display-strong-xl">{post.title}</Heading>
 
-            {/* Author + Date */}
             <Flex gap="12" vertical="center">
                 {post.author?.avatar ? (
                     <Avatar src={post.author.avatar} size="m" />
@@ -131,7 +129,6 @@ export default async function BlogPage({ params }: { params: { slug: string } })
                 </Text>
             </Flex>
 
-            {/* Cover image */}
             {post.coverImage && (
                 <Media
                     src={post.coverImage}
@@ -142,7 +139,6 @@ export default async function BlogPage({ params }: { params: { slug: string } })
                 />
             )}
 
-            {/* Blog Content */}
             <Column
                 className="prose prose-lg"
                 dangerouslySetInnerHTML={{ __html: post.content }}
