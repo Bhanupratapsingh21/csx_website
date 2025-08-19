@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import {
   Heading,
@@ -24,10 +25,74 @@ import { Posts } from "@/components/blog/Posts";
 import Image from "next/image";
 import { VideoCarousel } from "@/components/videos/Videos";
 import { Web3FormNewsletter } from "@/components/Mailchimp";
-import PeopleWhoInspiredMe from "@/components/inspire";
+
+import { Client, Databases, Query } from "appwrite";
+import Post from "@/components/blog/Post";
+import { useState, useEffect } from "react";
+
+// configure Appwrite client
+const client = new Client()
+  .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!) // e.g. "https://cloud.appwrite.io/v1"
+  .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID!);
+
+const databases = new Databases(client);
+
+interface BlogPost {
+  $id: string;
+  title: string;
+  slug: string;
+  summary?: string;
+  coverImage?: string;
+  publishedAt?: string;
+  tag?: string;
+}
+
+
 
 export default function Home() {
+  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+  const limit = 2; // posts per page
 
+  useEffect(() => {
+    fetchPosts(0);
+  }, []);
+
+  async function fetchPosts(pageNumber: number) {
+    const offset = pageNumber * limit;
+
+    const res = await databases.listDocuments(
+      process.env.NEXT_PUBLIC_APPWRITE_DB_ID!,
+      process.env.NEXT_PUBLIC_APPWRITE_BLOGS_COLLECTION!,
+      [
+        Query.orderDesc("publishedAt"),
+        Query.limit(limit),
+        Query.offset(offset),
+      ]
+    );
+
+    // Map documents to BlogPost safely
+    const blogPosts = res.documents.map(doc => ({
+      $id: doc.$id,
+      slug: doc.slug, // ✅ pull slug directly
+      title: doc.title,
+      summary: doc.summary,
+      coverImage: doc.coverImage,
+      publishedAt: doc.publishedAt,
+      tag: doc.tag,
+    } as BlogPost));
+
+    if (blogPosts.length < limit) {
+      setHasMore(false);
+    }
+
+    if (pageNumber === 0) {
+      setPosts(blogPosts);
+    } else {
+      setPosts((prev) => [...prev, ...blogPosts]);
+    }
+  }
   return (
     <Column maxWidth="m" gap="xl" horizontal="center">
       <Schema
@@ -153,13 +218,26 @@ export default function Home() {
             </Heading>
           </RevealFx>
 
-          {
-            /*
-               <RevealFx delay={0.2}>
-            <Posts range={[1, 2]} columns="2" />
+
+          <RevealFx delay={0.2}>
+            {posts.map((post) => (
+              <Post
+                key={post.$id}
+                post={{
+                  slug: post.slug, // ✅ use slug, not $id
+                  metadata: {
+                    title: post.title,
+                    image: post.coverImage,
+                    publishedAt: post.publishedAt,
+                    tag: post.tag,
+                  },
+                }}
+                thumbnail={false}
+                direction="row"
+              />
+            ))}
           </RevealFx>
-            */
-          }
+
         </Column>
       )}
 

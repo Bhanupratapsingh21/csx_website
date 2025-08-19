@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Column, Flex, Button, Input, Textarea, Heading, Tag, Media, Text,
   useTheme, MediaUpload, useToast
@@ -9,6 +9,7 @@ import {
 import dynamic from "next/dynamic";
 import { Client, Databases, ID } from "appwrite";
 import { useAuthStore } from "@/store/auth";
+import { useRouter } from "next/navigation";
 
 // ---------- Appwrite client ----------
 const client = new Client()
@@ -22,11 +23,22 @@ const Editor = dynamic(
   { ssr: false }
 );
 
+
+// Utility to slugify title
+function slugify(title: string): string {
+  return title
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9\s-]/g, "")   // remove special chars
+    .replace(/\s+/g, "-")           // spaces → hyphen
+    .replace(/-+/g, "-");           // collapse multiple hyphens
+}
+
 export default function BlogPostForm() {
   const { theme } = useTheme();
   const { addToast } = useToast();
   const { user } = useAuthStore();
-
+  const router = useRouter();
   const [title, setTitle] = useState("");
   const [summary, setSummary] = useState("");
   const [tagInput, setTagInput] = useState("");
@@ -78,6 +90,8 @@ export default function BlogPostForm() {
 
     setLoading(true);
     try {
+      const slug = slugify(title);
+
       await databases.createDocument(
         process.env.NEXT_PUBLIC_APPWRITE_DB_ID!,
         process.env.NEXT_PUBLIC_APPWRITE_BLOGS_COLLECTION!,
@@ -87,6 +101,7 @@ export default function BlogPostForm() {
           summary,
           content,                       // store HTML directly
           tags,
+          slug,
           coverImage,
           status: "private",
           publishedAt: new Date().toISOString(),
@@ -108,6 +123,15 @@ export default function BlogPostForm() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+
+    if (!user) {
+      router.push("/auth/signin");
+      return;
+    }
+  }, [])
+
 
   return (
     <Column
@@ -145,7 +169,7 @@ export default function BlogPostForm() {
           aspectRatio="4 / 3"
           onFileUpload={handleCoverUpload}
         />
-        
+
         {coverImage && (
           <Flex paddingTop="8">
             <Media src={coverImage} alt="cover" radius="l" />
