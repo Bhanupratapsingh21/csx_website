@@ -209,7 +209,7 @@ export default function ProfilePage() {
 
     if (loading) {
         return (
-            <Flex fillWidth minHeight="104" content="center" align="center">
+            <Flex fillWidth className="min-h-screen flex flex-col items-center justify-center bg-gray-50">
                 <Spinner size="l" />
             </Flex>
         );
@@ -253,7 +253,7 @@ export default function ProfilePage() {
 
                     <Card padding="l" border="transparent" radius="l-4">
                         <Flex direction="column" gap="12">
-                            <Row gap="2"  align="center">
+                            <Row gap="2" align="center">
                                 <Column>
                                     <Text weight="strong" >Username : {profile.username}</Text>
                                     <Text onBackground="neutral-weak">Email : {profile.email}</Text>
