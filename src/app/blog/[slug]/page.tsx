@@ -14,6 +14,7 @@ import {
     Schema,
     Text,
 } from "@once-ui-system/core";
+import Image from "next/image";
 
 type BlogPost = {
     $id: string;
@@ -23,7 +24,7 @@ type BlogPost = {
     content: string;
     coverImage?: string;
     publishedAt?: string;
-    author?: { name: string; avatar?: string };
+    authorName?: string;
 };
 
 const client = new Client()
@@ -51,9 +52,7 @@ async function getPostBySlug(slug: string): Promise<BlogPost | null> {
             content: doc.content,
             coverImage: doc.coverImage,
             publishedAt: doc.publishedAt,
-            author: doc.author
-                ? { name: doc.author.name, avatar: doc.author.avatar }
-                : undefined,
+            authorName: doc.authorName
         };
     } catch (e) {
         console.error("Error fetching blog by slug:", e);
@@ -101,9 +100,9 @@ export default async function BlogPage(
                 path={`${blog.path}/${post.slug}`}
                 image={post.coverImage}
                 author={{
-                    name: post.author?.name || person.name,
+                    name: post.authorName || "Anonymous",
                     url: `${baseURL}${about.path}`,
-                    image: post.author?.avatar || person.avatar,
+                    image: person.avatar,
                 }}
             />
 
@@ -118,31 +117,33 @@ export default async function BlogPage(
             <Heading variant="display-strong-xl">{post.title}</Heading>
 
             <Flex gap="12" vertical="center">
-                {post.author?.avatar ? (
-                    <Avatar src={post.author.avatar} size="m" />
-                ) : (
-                    <Avatar size="m" />
-                )}
+
+                <Avatar size="m" />
+
                 <Text variant="body-default-m" onBackground="neutral-weak">
-                    Published by <strong>{post.author?.name || person.name}</strong>{" "}
+                    Published by <strong>{post.authorName || "Anonymous"}</strong>{" "}
                     {post.publishedAt && ` · ${formatDate(post.publishedAt)}`}
                 </Text>
             </Flex>
 
-            {post.coverImage && (
-                <Media
-                    src={post.coverImage}
-                    alt={post.title}
-                    radius="xl"
-                    enlarge
-                    sizes="100%"
-                />
-            )}
+
 
             <Column
                 className="prose prose-lg"
                 dangerouslySetInnerHTML={{ __html: post.content }}
             />
+
+            {post.coverImage && (
+
+                <Image
+                    className="w-full max-w-4xl mx-auto h-auto rounded-xl"
+                    src={post.coverImage}
+                    alt={post.title}
+                    width={1200}
+                    height={600}
+                    style={{ width: '100%', height: 'auto' }}
+                />
+            )}
         </Column>
     );
 }

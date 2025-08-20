@@ -253,7 +253,7 @@ export default function ProfilePage() {
 
                     <Card padding="l" border="transparent" radius="l-4">
                         <Flex direction="column" gap="12">
-                            <Row gap="2"  align="center">
+                            <Row gap="2" align="center">
                                 <Column>
                                     <Text weight="strong" >Username : {profile.username}</Text>
                                     <Text onBackground="neutral-weak">Email : {profile.email}</Text>

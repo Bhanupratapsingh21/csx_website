@@ -106,6 +106,7 @@ export default function BlogPostForm() {
           status: "private",
           publishedAt: new Date().toISOString(),
           createdBy: user?.id,
+          authorName: user?.name,
           upvotes: 0,
         }
       );
