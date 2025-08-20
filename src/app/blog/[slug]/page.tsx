@@ -12,6 +12,7 @@ import {
     Heading,
     Media,
     Schema,
+    Tag,
     Text,
 } from "@once-ui-system/core";
 import Image from "next/image";
@@ -22,6 +23,7 @@ type BlogPost = {
     title: string;
     summary: string;
     content: string;
+    tags: [string];
     coverImage?: string;
     publishedAt?: string;
     authorName?: string;
@@ -50,6 +52,7 @@ async function getPostBySlug(slug: string): Promise<BlogPost | null> {
             title: doc.title,
             summary: doc.summary,
             content: doc.content,
+            tags: doc.tags,
             coverImage: doc.coverImage,
             publishedAt: doc.publishedAt,
             authorName: doc.authorName
@@ -116,6 +119,8 @@ export default async function BlogPage(
 
             <Heading variant="display-strong-xl">{post.title}</Heading>
 
+
+
             <Flex gap="12" vertical="center">
 
                 <Avatar size="m" />
@@ -126,7 +131,14 @@ export default async function BlogPage(
                 </Text>
             </Flex>
 
-
+            <Column gap="8">
+                <Text variant="body-default-m">Tags</Text>
+                <Flex gap="8" wrap>
+                    {post.tags.map((t, i) => (
+                        <Tag key={i} size="m">{t}</Tag>
+                    ))}
+                </Flex>
+            </Column>
 
             <Column
                 className="prose prose-lg"
