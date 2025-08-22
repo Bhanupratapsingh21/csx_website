@@ -209,7 +209,7 @@ export default function ProfilePage() {
 
     if (loading) {
         return (
-            <Flex fillWidth minHeight="104" content="center" align="center">
+            <Flex fillWidth className="min-h-screen flex flex-col items-center justify-center bg-gray-50">
                 <Spinner size="l" />
             </Flex>
         );

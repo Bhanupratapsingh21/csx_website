@@ -90,13 +90,15 @@ export default function CSXSignup() {
   const validatePhone = (phone: string) => /^\+?[0-9]{7,15}$/.test(phone);
   const validatePassword = (pwd: string) => pwd.length >= 8;
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value, type, checked } = e.target as HTMLInputElement;
-    setForm((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value }));
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, type, checked } = e.target;
+    setForm((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
     setError("");
   };
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -252,7 +254,30 @@ export default function CSXSignup() {
                 label="Coding Level"
                 name="codingLevel"
                 value={form.codingLevel}
-                onChange={handleChange}
+                onSelect={(val) =>
+                  setForm((prev) => ({
+                    ...prev,
+                    codingLevel: val as CodingLevel,
+                  }))
+                }
+              />
+
+              <Select
+                options={[
+                  { value: "beginner", label: "Beginner" },
+                  { value: "intermediate", label: "Intermediate" },
+                  { value: "advanced", label: "Advanced" },
+                ]}
+                id="codingLevel"
+                label="Coding Level"
+                name="codingLevel"
+                value={form.codingLevel}
+                onSelect={(val) =>
+                  setForm((prev) => ({
+                    ...prev,
+                    codingLevel: val as CodingLevel,
+                  }))
+                }
               />
 
 

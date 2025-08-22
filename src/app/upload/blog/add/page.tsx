@@ -24,6 +24,7 @@ const Editor = dynamic(
 );
 
 
+
 // Utility to slugify title
 function slugify(title: string): string {
   return title
@@ -92,6 +93,9 @@ export default function BlogPostForm() {
     try {
       const slug = slugify(title);
 
+      console.log("Current user info:", user?.name);
+      console.log(user?.id);
+
       await databases.createDocument(
         process.env.NEXT_PUBLIC_APPWRITE_DB_ID!,
         process.env.NEXT_PUBLIC_APPWRITE_BLOGS_COLLECTION!,
@@ -99,7 +103,7 @@ export default function BlogPostForm() {
         {
           title,
           summary,
-          content,                       // store HTML directly
+          content,
           tags,
           slug,
           coverImage,
@@ -110,7 +114,7 @@ export default function BlogPostForm() {
           upvotes: 0,
         }
       );
-
+      console.log(user?.name);
       addToast({ variant: "success", message: "Blog created successfully!" });
       setTitle("");
       setSummary("");
@@ -211,18 +215,12 @@ export default function BlogPostForm() {
             init={{
               height: 400,
               menubar: true,
-              plugins: [
-                "advlist autolink lists link image charmap print preview anchor",
-                "searchreplace visualblocks code fullscreen",
-                "insertdatetime media table paste code help wordcount",
-              ],
-              toolbar:
-                "undo redo | formatselect | bold italic backcolor | \
-                alignleft aligncenter alignright alignjustify | \
-                bullist numlist outdent indent | removeformat | help",
+              plugins: "advlist autolink lists link image charmap searchreplace visualblocks code fullscreen insertdatetime media table help wordcount",
+              toolbar: "undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help",
               skin: theme === "dark" ? "oxide-dark" : "oxide",
               content_css: theme === "dark" ? "dark" : "default",
             }}
+
           />
         </div>
       </Column>
